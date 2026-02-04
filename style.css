@@ -1,0 +1,196 @@
+/* ===== RESET ===== */
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+body{
+    background:#0a0a0f;
+    color:white;
+    scroll-behavior:smooth;
+
+    /* snap scrolling */
+    scroll-snap-type:y mandatory;
+    overflow-y:scroll;
+}
+
+/* ===== NAVBAR ===== */
+.navbar{
+    position:fixed;
+    top:0;
+    width:100%;
+    display:flex;
+    justify-content:space-between;
+    padding:15px 40px;
+    backdrop-filter:blur(15px);
+    background:rgba(0,0,0,0.4);
+    z-index:1000;
+}
+
+.navbar ul{
+    display:flex;
+    gap:20px;
+    list-style:none;
+}
+
+.navbar a{
+    color:white;
+    text-decoration:none;
+    transition:.3s;
+}
+
+.navbar a:hover{
+    color:#8a6cff;
+}
+
+/* ===== SLIDES ===== */
+/* ===== SLIDES ===== */
+.slide{
+    min-height:100vh;
+    scroll-snap-align:start;
+
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+
+    padding:100px 20px 40px;
+    text-align:center;
+
+    /* SAME BACKGROUND FOR ALL SECTIONS */
+    background:linear-gradient(135deg,#0a0a0f,#1a1235,#0a0a0f);
+}
+
+
+
+/* ===== HERO ===== */
+.hero{
+    background:linear-gradient(135deg,#0a0a0f,#1a1235,#0a0a0f);
+}
+
+.profile{
+    width:150px;
+    border-radius:50%;
+    margin-bottom:20px;
+}
+
+#typing{
+    color:#8a6cff;
+}
+
+/* ===== GRID ===== */
+.grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+    gap:25px;
+    width:80%;
+}
+
+/* ===== CARDS ===== */
+.card{
+    padding:25px;
+    border-radius:18px;
+    background:rgba(255,255,255,0.06);
+    backdrop-filter:blur(12px);
+    transition:.4s;
+}
+
+.card:hover{
+    transform:translateY(-10px);
+    box-shadow:0 0 20px #8a6cff;
+}
+
+/* ===== CONTACT ===== */
+form{
+    display:flex;
+    flex-direction:column;
+    margin: 20px auto 0;
+    gap:15px;
+    width:300px;
+}
+
+input, textarea{
+    padding:10px;
+    border:none;
+    border-radius:8px;
+}
+
+button{
+    background:#8a6cff;
+    color:white;
+    padding:10px;
+    border:none;
+    cursor:pointer;
+}
+/* ===== SOCIAL ICONS ===== */
+/* ===== SOCIAL ICONS WITH NAMES ===== */
+.social-icons{
+    margin-top:40px;
+    display:flex;
+    justify-content:center;
+    gap:35px;
+}
+
+.social-item{
+    display:flex;
+    flex-direction:column;   /* icon + text vertically */
+    align-items:center;
+    text-decoration:none;
+    color:white;
+    font-size:14px;
+    transition:0.3s;
+}
+
+.social-item i{
+    width:60px;
+    height:60px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:50%;
+    background:rgba(255,255,255,0.08);
+    font-size:26px;
+    margin-bottom:8px;
+    transition:0.3s;
+}
+
+.social-item:hover i{
+    background:#8a6cff;
+    transform:translateY(-6px);
+    box-shadow:0 0 15px #8a6cff;
+}
+
+.social-item span{
+    font-size:13px;
+    letter-spacing:0.5px;
+}
+
+
+/* ===== REVEAL ANIMATION ===== */
+.reveal{
+    opacity:0;
+    transform:translateY(40px);
+    transition:.8s;
+}
+
+.reveal.active{
+    opacity:1;
+    transform:translateY(0);
+}
+
+/* ===== FOOTER ===== */
+/* ===== FOOTER ===== */
+footer{
+    padding:15px 10px;
+    text-align:center;
+    background:#111;
+    margin-top:60px; /* pushes footer downward */
+}
+
+
+/* icons inside footer */
+footer .social-icons{
+    margin-top:15px;
+}
