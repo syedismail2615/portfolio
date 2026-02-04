@@ -17,18 +17,24 @@
 <!-- ================= NAVBAR ================= -->
 <nav class="navbar">
     <div class="logo">
-    <i class="fa-solid fa-crown"></i> SYED
-</div>
+        <i class="fa-solid fa-crown"></i> SYED
+    </div>
 
-    <ul>
-        <li><a href="#hero">Home</a></li>
-        <li><a href="#about">About</a></li>
-        <li><a href="#skills">Skills</a></li>
-        <li><a href="#projects">Projects</a></li>
-        <li><a href="#experience">Experience</a></li>
-        <li><a href="#education">Education</a></li>
-        <li><a href="#contact">Contact</a></li>
-    </ul>
+    <button class="menu-toggle" aria-label="Toggle navigation">
+        <i class="fa-solid fa-bars"></i>
+    </button>
+
+    <div class="nav-links">
+        <ul>
+            <li><a href="#hero">Home</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#skills">Skills</a></li>
+            <li><a href="#projects">Projects</a></li>
+            <li><a href="#experience">Experience</a></li>
+            <li><a href="#education">Education</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+    </div>
 </nav>
 
 
@@ -167,19 +173,21 @@ Currently seeking internships and opportunities to contribute to innovative AI p
 
 <!-- ================= CONTACT ================= -->
 <section class="slide" id="contact">
-    <div class="container reveal">
-        <h2>Contact Me</h2>
+        <div class="container reveal">
+                <h2>Contact Me</h2>
 
-      <form action="mailto:syedismail2615@gmail.com" method="POST" enctype="text/plain">
-    <input type="text" name="Name" placeholder="Your Name" required />
-    <input type="email" name="Email" placeholder="Email" required />
-    <textarea name="Message" placeholder="Message" required></textarea>
-    <button type="submit">Send Message</button>
-</form>
+            <form id="contact-form">
+                <input type="hidden" name="access_key" value="7a9c1ea9-b6c4-4f5d-8ff2-849427285e68" />
+                <input type="text" name="name" placeholder="Your Name" required />
+                <input type="email" name="email" placeholder="Email" required />
+                <textarea name="message" placeholder="Message" required></textarea>
+                <button type="submit">Send Message</button>
+            </form>
 
+            <div id="form-messages" role="status" aria-live="polite"></div>
 
-        <!-- Social Icons -->
-   <div class="social-icons">
+                <!-- Social Icons -->
+     <div class="social-icons">
 
     <a href="https://linkedin.com/in/yourprofile" target="_blank" class="social-item">
         <i class="fab fa-linkedin-in"></i>

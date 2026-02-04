@@ -42,3 +42,52 @@ const observer = new IntersectionObserver(entries => {
 });
 
 reveals.forEach(el => observer.observe(el));
+
+
+/* ===== Mobile Menu Toggle ===== */
+const menuToggle = document.querySelector('.menu-toggle');
+const navLinks = document.querySelector('.nav-links');
+if(menuToggle && navLinks){
+    menuToggle.addEventListener('click', () => {
+        navLinks.classList.toggle('open');
+    });
+
+    document.querySelectorAll('.nav-links a').forEach(a => {
+        a.addEventListener('click', () => navLinks.classList.remove('open'));
+    });
+}
+
+
+/* ===== Web3Forms Contact Submission ===== */
+const contactForm = document.getElementById('contact-form');
+const formMessages = document.getElementById('form-messages');
+
+if(contactForm){
+    contactForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const btn = contactForm.querySelector('button');
+        const formData = new FormData(contactForm);
+
+        if(btn) btn.disabled = true;
+        if(formMessages) { formMessages.className = ''; formMessages.textContent = 'Sending...'; }
+
+        try{
+            const res = await fetch('https://api.web3forms.com/submit', {
+                method: 'POST',
+                body: formData
+            });
+            const json = await res.json();
+            if(json.success){
+                if(formMessages){ formMessages.className = 'success'; formMessages.textContent = 'Message sent — thank you!'; }
+                contactForm.reset();
+            } else {
+                if(formMessages){ formMessages.className = 'error'; formMessages.textContent = json.message || 'Submission failed.'; }
+            }
+        } catch(err){
+            if(formMessages){ formMessages.className = 'error'; formMessages.textContent = 'Network error, please try again.'; }
+        } finally {
+            if(btn) btn.disabled = false;
+            setTimeout(()=>{ if(formMessages){ formMessages.textContent=''; formMessages.className=''; } }, 6000);
+        }
+    });
+}
