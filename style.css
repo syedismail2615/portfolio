@@ -26,7 +26,7 @@ body{
     width: 100%;
     height: 100%;
     z-index: -1;
-    background: linear-gradient(135deg, #0a0a0f 0%, #1a0f2e 30%, #0f1a3c 60%, #050810 100%);
+    background: #0a0a0f;
 }
 
 /* ===== NAVBAR ===== */
@@ -100,8 +100,8 @@ body{
     padding:100px 20px 40px;
     text-align:center;
 
-    /* SAME BACKGROUND FOR ALL SECTIONS */
-    background:linear-gradient(135deg,#0a0a0f,#1a1235,#0a0a0f);
+    /* Clean background - canvas handles the animated background */
+    background: transparent;
 }
 
 .slide h2 {
@@ -164,7 +164,7 @@ body{
 
 /* ===== HERO ===== */
 .hero{
-    background:linear-gradient(135deg,#0a0a0f,#1a1235,#0a0a0f);
+    background: transparent;
 }
 
 .hero-content {
