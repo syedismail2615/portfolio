@@ -660,12 +660,20 @@ footer .social-icons{
 }
 
 .logo i {
-    background: linear-gradient(135deg, #64b4ff, #7dd3ff, #9d5eff);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+    color: #ffd700;
     margin-right: 5px;
-    filter: drop-shadow(0 0 10px rgba(100, 180, 255, 0.4));
+    animation: crownGlow 2s ease-in-out infinite;
+}
+
+@keyframes crownGlow {
+    0%, 100% {
+        filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.4));
+        transform: scale(1);
+    }
+    50% {
+        filter: drop-shadow(0 0 20px rgba(255, 215, 0, 0.8));
+        transform: scale(1.05);
+    }
 }
 
 /* small screens */
