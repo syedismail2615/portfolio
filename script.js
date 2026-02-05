@@ -24,30 +24,30 @@ class AnimatedBackground {
     }
     
     initStars() {
-        const starCount = Math.floor(this.width * this.height / 8000);
+        const starCount = Math.floor(this.width * this.height / 4000);
         for (let i = 0; i < starCount; i++) {
             this.stars.push({
                 x: Math.random() * this.width,
                 y: Math.random() * this.height,
-                radius: Math.random() * 0.5 + 0.2,
-                opacity: Math.random() * 0.3 + 0.1,
-                twinkleSpeed: Math.random() * 0.015 + 0.005,
+                radius: Math.random() * 0.4 + 0.15,
+                opacity: Math.random() * 0.2 + 0.05,
+                twinkleSpeed: Math.random() * 0.012 + 0.004,
                 phase: Math.random() * Math.PI * 2
             });
         }
     }
     
     initParticles() {
-        const particleCount = Math.floor(this.width * this.height / 25000);
+        const particleCount = Math.floor(this.width * this.height / 12000);
         for (let i = 0; i < particleCount; i++) {
             this.particles.push({
                 x: Math.random() * this.width,
                 y: Math.random() * this.height,
-                vx: (Math.random() - 0.5) * 0.2,
-                vy: (Math.random() - 0.5) * 0.2,
-                radius: Math.random() * 0.8 + 0.2,
-                opacity: Math.random() * 0.25 + 0.05,
-                baseOpacity: Math.random() * 0.25 + 0.05
+                vx: (Math.random() - 0.5) * 0.15,
+                vy: (Math.random() - 0.5) * 0.15,
+                radius: Math.random() * 0.6 + 0.15,
+                opacity: Math.random() * 0.15 + 0.03,
+                baseOpacity: Math.random() * 0.15 + 0.03
             });
         }
     }
@@ -55,9 +55,9 @@ class AnimatedBackground {
     drawStars() {
         this.stars.forEach(star => {
             star.phase += star.twinkleSpeed;
-            const twinkle = Math.abs(Math.sin(star.phase)) * 0.7 + 0.3;
+            const twinkle = Math.abs(Math.sin(star.phase)) * 0.6 + 0.2;
             
-            this.ctx.fillStyle = `rgba(255, 255, 255, ${star.opacity * twinkle * 0.8})`;
+            this.ctx.fillStyle = `rgba(255, 255, 255, ${Math.max(star.opacity * twinkle * 0.6, 0.02)})`;
             this.ctx.beginPath();
             this.ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
             this.ctx.fill();
@@ -76,9 +76,9 @@ class AnimatedBackground {
             if (particle.y > this.height + 10) particle.y = -10;
             
             // Gentle pulse
-            const pulseFactor = Math.sin(this.time * 0.002 + particle.x * 0.001) * 0.3 + 0.7;
+            const pulseFactor = Math.sin(this.time * 0.0015 + particle.x * 0.0005) * 0.25 + 0.75;
             
-            this.ctx.fillStyle = `rgba(150, 180, 220, ${particle.baseOpacity * pulseFactor * 0.6})`;
+            this.ctx.fillStyle = `rgba(150, 180, 220, ${Math.max(particle.baseOpacity * pulseFactor * 0.5, 0.01)})`;
             this.ctx.beginPath();
             this.ctx.arc(particle.x, particle.y, particle.radius * pulseFactor, 0, Math.PI * 2);
             this.ctx.fill();
