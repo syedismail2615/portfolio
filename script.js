@@ -28,8 +28,11 @@ function eraseEffect() {
 
 typeEffect();
 
-
-/* ===== Scroll Reveal ===== */
+/* ===== Scroll-triggered animations ===== */
+const observerOptions = {
+    threshold: 0.1,
+    rootMargin: '0px 0px -50px 0px'
+};
 
 const reveals = document.querySelectorAll(".reveal");
 
@@ -39,10 +42,57 @@ const observer = new IntersectionObserver(entries => {
             entry.target.classList.add("active");
         }
     });
-});
+}, observerOptions);
 
 reveals.forEach(el => observer.observe(el));
 
+/* ===== Smooth scroll with scale effect on hero ===== */
+window.addEventListener('scroll', () => {
+    const hero = document.querySelector('.hero');
+    if (hero) {
+        const scrolled = window.scrollY;
+        const heroHeight = hero.offsetHeight;
+        const scrollProgress = Math.min(scrolled / heroHeight, 1);
+        hero.style.opacity = 1 - scrollProgress * 0.3;
+    }
+});
+
+/* ===== Mouse parallax effect on profile ===== */
+const profile = document.querySelector('.profile');
+if (profile) {
+    document.addEventListener('mousemove', (e) => {
+        const x = (window.innerWidth / 2 - e.clientX) / 20;
+        const y = (window.innerHeight / 2 - e.clientY) / 20;
+        profile.style.transform = `translateX(${x}px) translateY(${y}px) rotateY(-90deg) scale(1)`;
+    });
+    
+    document.addEventListener('mouseleave', () => {
+        profile.style.transform = 'translateX(0) translateY(0) rotateY(0) scale(1)';
+    });
+}
+
+/* ===== Card hover lift effect ===== */
+const cards = document.querySelectorAll('.card');
+cards.forEach(card => {
+    card.addEventListener('mouseenter', function() {
+        this.style.transition = 'all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1)';
+    });
+    
+    card.addEventListener('mousemove', (e) => {
+        const rect = card.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        const centerX = rect.width / 2;
+        const centerY = rect.height / 2;
+        const rotateX = (y - centerY) / 10;
+        const rotateY = (centerX - x) / 10;
+        card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateZ(20px)`;
+    });
+    
+    card.addEventListener('mouseleave', function() {
+        this.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) translateZ(0)';
+    });
+});
 
 /* ===== Mobile Menu Toggle ===== */
 const menuToggle = document.querySelector('.menu-toggle');
@@ -56,7 +106,6 @@ if(menuToggle && navLinks){
         a.addEventListener('click', () => navLinks.classList.remove('open'));
     });
 }
-
 
 /* ===== Web3Forms Contact Submission ===== */
 const contactForm = document.getElementById('contact-form');
