@@ -1,66 +1,174 @@
-/* ===== Animated Background Canvas ===== */
+/* ===== Cinematic 4K Space Background Canvas ===== */
 
-class AnimatedBackground {
+class CinematicSpaceBackground {
     constructor() {
         this.canvas = document.getElementById('bgCanvas');
         this.ctx = this.canvas.getContext('2d');
-        this.width = this.canvas.width = window.innerWidth;
-        this.height = this.canvas.height = window.innerHeight;
+        this.dpr = window.devicePixelRatio || 1;
+        
+        // Set canvas size for 4K quality
+        this.canvas.width = window.innerWidth * this.dpr;
+        this.canvas.height = window.innerHeight * this.dpr;
+        this.ctx.scale(this.dpr, this.dpr);
+        
+        this.width = window.innerWidth;
+        this.height = window.innerHeight;
         
         this.stars = [];
         this.particles = [];
+        this.nebulae = [];
         this.time = 0;
+        this.mouseX = this.width / 2;
+        this.mouseY = this.height / 2;
         
         this.initStars();
         this.initParticles();
+        this.initNebulae();
         
         window.addEventListener('resize', () => this.handleResize());
+        document.addEventListener('mousemove', (e) => this.handleMouseMove(e));
         this.animate();
     }
     
     handleResize() {
-        this.width = this.canvas.width = window.innerWidth;
-        this.height = this.canvas.height = window.innerHeight;
+        this.canvas.width = window.innerWidth * this.dpr;
+        this.canvas.height = window.innerHeight * this.dpr;
+        this.ctx.scale(this.dpr, this.dpr);
+        this.width = window.innerWidth;
+        this.height = window.innerHeight;
+    }
+    
+    handleMouseMove(e) {
+        this.mouseX = e.clientX;
+        this.mouseY = e.clientY;
     }
     
     initStars() {
-        const starCount = Math.floor(this.width * this.height / 4000);
+        const starCount = Math.floor(this.width * this.height / 2500);
         for (let i = 0; i < starCount; i++) {
+            const depth = Math.random();
             this.stars.push({
                 x: Math.random() * this.width,
                 y: Math.random() * this.height,
-                radius: Math.random() * 0.4 + 0.15,
-                opacity: Math.random() * 0.2 + 0.05,
-                twinkleSpeed: Math.random() * 0.012 + 0.004,
-                phase: Math.random() * Math.PI * 2
+                radius: Math.random() * 0.8 + 0.1,
+                opacity: Math.random() * 0.3 + 0.04,
+                twinkleSpeed: Math.random() * 0.018 + 0.003,
+                phase: Math.random() * Math.PI * 2,
+                depth: depth,
+                color: this.getStarColor(depth)
             });
         }
     }
     
+    getStarColor(depth) {
+        if (depth > 0.7) return { r: 200, g: 220, b: 255 }; // Blue stars
+        if (depth > 0.4) return { r: 255, g: 200, b: 220 }; // Pink stars
+        return { r: 255, g: 255, b: 200 }; // Yellow stars
+    }
+    
     initParticles() {
-        const particleCount = Math.floor(this.width * this.height / 12000);
+        const particleCount = Math.floor(this.width * this.height / 6000);
         for (let i = 0; i < particleCount; i++) {
             this.particles.push({
                 x: Math.random() * this.width,
                 y: Math.random() * this.height,
-                vx: (Math.random() - 0.5) * 0.15,
-                vy: (Math.random() - 0.5) * 0.15,
-                radius: Math.random() * 0.6 + 0.15,
-                opacity: Math.random() * 0.15 + 0.03,
-                baseOpacity: Math.random() * 0.15 + 0.03
+                vx: (Math.random() - 0.5) * 0.1,
+                vy: (Math.random() - 0.5) * 0.1,
+                radius: Math.random() * 0.7 + 0.15,
+                opacity: Math.random() * 0.15 + 0.02,
+                baseOpacity: Math.random() * 0.15 + 0.02,
+                color: this.getParticleColor(),
+                life: Math.random() * 0.5 + 0.5
             });
         }
+    }
+    
+    getParticleColor() {
+        const colors = [
+            { r: 100, g: 180, b: 255 },     // Cyan
+            { r: 150, g: 100, b: 255 },     // Purple
+            { r: 100, g: 200, b: 255 }      // Light Blue
+        ];
+        return colors[Math.floor(Math.random() * colors.length)];
+    }
+    
+    initNebulae() {
+        for (let i = 0; i < 3; i++) {
+            this.nebulae.push({
+                x: Math.random() * this.width,
+                y: Math.random() * this.height,
+                radius: 200 + Math.random() * 400,
+                opacity: Math.random() * 0.1 + 0.02,
+                colors: [
+                    { r: 100, g: 50, b: 200 },
+                    { r: 50, g: 100, b: 200 }
+                ],
+                vx: (Math.random() - 0.5) * 0.02
+            });
+        }
+    }
+    
+    drawGradientBackground() {
+        const gradient = this.ctx.createLinearGradient(0, 0, this.width, this.height);
+        gradient.addColorStop(0, '#0a0a15');
+        gradient.addColorStop(0.25, '#0f0520');
+        gradient.addColorStop(0.5, '#050a20');
+        gradient.addColorStop(0.75, '#0a0f20');
+        gradient.addColorStop(1, '#05050f');
+        
+        this.ctx.fillStyle = gradient;
+        this.ctx.fillRect(0, 0, this.width, this.height);
+    }
+    
+    drawNebulae() {
+        this.nebulae.forEach(nebula => {
+            nebula.x += nebula.vx;
+            if (nebula.x < -nebula.radius) nebula.x = this.width + nebula.radius;
+            if (nebula.x > this.width + nebula.radius) nebula.x = -nebula.radius;
+            
+            const pulseFactor = Math.sin(this.time * 0.0005 + nebula.x) * 0.4 + 0.6;
+            
+            for (let i = 0; i < nebula.colors.length; i++) {
+                const color = nebula.colors[i];
+                const grd = this.ctx.createRadialGradient(nebula.x, nebula.y, 0, nebula.x, nebula.y, nebula.radius);
+                grd.addColorStop(0, `rgba(${color.r}, ${color.g}, ${color.b}, ${nebula.opacity * pulseFactor * 0.8})`);
+                grd.addColorStop(0.5, `rgba(${color.r}, ${color.g}, ${color.b}, ${nebula.opacity * pulseFactor * 0.3})`);
+                grd.addColorStop(1, `rgba(${color.r}, ${color.g}, ${color.b}, 0)`);
+                
+                this.ctx.fillStyle = grd;
+                this.ctx.fillRect(nebula.x - nebula.radius, nebula.y - nebula.radius, nebula.radius * 2, nebula.radius * 2);
+            }
+        });
     }
     
     drawStars() {
         this.stars.forEach(star => {
             star.phase += star.twinkleSpeed;
-            const twinkle = Math.abs(Math.sin(star.phase)) * 0.6 + 0.2;
+            const twinkle = Math.sin(star.phase) * 0.7 + 0.3;
             
-            this.ctx.fillStyle = `rgba(255, 255, 255, ${Math.max(star.opacity * twinkle * 0.6, 0.02)})`;
+            // Parallax effect based on mouse position
+            const dx = this.mouseX - this.width / 2;
+            const dy = this.mouseY - this.height / 2;
+            const parallaxX = star.x + (dx * star.depth * 0.025);
+            const parallaxY = star.y + (dy * star.depth * 0.025);
+            
+            const opacity = Math.max(star.opacity * twinkle * 0.8, 0.01);
+            this.ctx.fillStyle = `rgba(${star.color.r}, ${star.color.g}, ${star.color.b}, ${opacity})`;
             this.ctx.beginPath();
-            this.ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
+            this.ctx.arc(parallaxX, parallaxY, star.radius, 0, Math.PI * 2);
             this.ctx.fill();
+            
+            // Star glow effect
+            if (twinkle > 0.5) {
+                this.ctx.shadowColor = `rgba(${star.color.r}, ${star.color.g}, ${star.color.b}, ${opacity * 0.6})`;
+                this.ctx.shadowBlur = 6;
+                this.ctx.strokeStyle = `rgba(${star.color.r}, ${star.color.g}, ${star.color.b}, ${opacity * 0.4})`;
+                this.ctx.lineWidth = 1;
+                this.ctx.beginPath();
+                this.ctx.arc(parallaxX, parallaxY, star.radius + 1.5, 0, Math.PI * 2);
+                this.ctx.stroke();
+                this.ctx.shadowBlur = 0;
+            }
         });
     }
     
@@ -68,40 +176,81 @@ class AnimatedBackground {
         this.particles.forEach(particle => {
             particle.x += particle.vx;
             particle.y += particle.vy;
+            particle.life -= 0.00015;
             
-            // Wrap around edges
-            if (particle.x < -10) particle.x = this.width + 10;
-            if (particle.x > this.width + 10) particle.x = -10;
-            if (particle.y < -10) particle.y = this.height + 10;
-            if (particle.y > this.height + 10) particle.y = -10;
+            if (particle.life < 0 || particle.x < -10 || particle.x > this.width + 10 || 
+                particle.y < -10 || particle.y > this.height + 10) {
+                this.resetParticle(particle);
+            }
             
-            // Gentle pulse
-            const pulseFactor = Math.sin(this.time * 0.0015 + particle.x * 0.0005) * 0.25 + 0.75;
+            const pulseFactor = Math.sin(this.time * 0.003 + particle.x * 0.0008) * 0.35 + 0.65;
+            const opacity = Math.max(particle.baseOpacity * pulseFactor * particle.life * 0.6, 0.005);
             
-            this.ctx.fillStyle = `rgba(150, 180, 220, ${Math.max(particle.baseOpacity * pulseFactor * 0.5, 0.01)})`;
+            // Particle glow
+            this.ctx.shadowColor = `rgba(${particle.color.r}, ${particle.color.g}, ${particle.color.b}, ${opacity})`;
+            this.ctx.shadowBlur = 10 * pulseFactor;
+            
+            this.ctx.fillStyle = `rgba(${particle.color.r}, ${particle.color.g}, ${particle.color.b}, ${opacity})`;
             this.ctx.beginPath();
             this.ctx.arc(particle.x, particle.y, particle.radius * pulseFactor, 0, Math.PI * 2);
             this.ctx.fill();
+            
+            // Outer glow ring
+            this.ctx.strokeStyle = `rgba(${particle.color.r}, ${particle.color.g}, ${particle.color.b}, ${opacity * 0.4})`;
+            this.ctx.lineWidth = 0.8;
+            this.ctx.beginPath();
+            this.ctx.arc(particle.x, particle.y, particle.radius * pulseFactor + 1.5, 0, Math.PI * 2);
+            this.ctx.stroke();
+            
+            this.ctx.shadowBlur = 0;
         });
     }
     
-    animate() {
-        // Simple dark space background
-        this.ctx.fillStyle = '#0a0a0f';
+    resetParticle(particle) {
+        particle.x = Math.random() * this.width;
+        particle.y = Math.random() * this.height;
+        particle.vx = (Math.random() - 0.5) * 0.1;
+        particle.vy = (Math.random() - 0.5) * 0.1;
+        particle.life = 0.5;
+        particle.color = this.getParticleColor();
+    }
+    
+    drawOverlay() {
+        // Premium dark overlay with vignette effect
+        const gradient = this.ctx.createLinearGradient(0, 0, 0, this.height);
+        gradient.addColorStop(0, 'rgba(0, 0, 0, 0.4)');
+        gradient.addColorStop(0.5, 'rgba(0, 0, 0, 0.55)');
+        gradient.addColorStop(1, 'rgba(0, 0, 0, 0.65)');
+        
+        this.ctx.fillStyle = gradient;
         this.ctx.fillRect(0, 0, this.width, this.height);
         
-        // Draw elements
+        // Subtle vignette
+        const vignetteGradient = this.ctx.createRadialGradient(this.width / 2, this.height / 2, 0, 
+                                                               this.width / 2, this.height / 2, 
+                                                               Math.sqrt(this.width * this.width + this.height * this.height) / 2);
+        vignetteGradient.addColorStop(0, 'rgba(0, 0, 0, 0)');
+        vignetteGradient.addColorStop(1, 'rgba(0, 0, 0, 0.3)');
+        
+        this.ctx.fillStyle = vignetteGradient;
+        this.ctx.fillRect(0, 0, this.width, this.height);
+    }
+    
+    animate() {
+        this.drawGradientBackground();
+        this.drawNebulae();
         this.drawParticles();
         this.drawStars();
+        this.drawOverlay();
         
         this.time++;
         requestAnimationFrame(() => this.animate());
     }
 }
 
-// Initialize animated background
+// Initialize cinematic background
 document.addEventListener('DOMContentLoaded', () => {
-    new AnimatedBackground();
+    new CinematicSpaceBackground();
 });
 
 /* ===== Typing Effect ===== */
