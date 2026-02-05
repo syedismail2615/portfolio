@@ -648,7 +648,10 @@ footer .social-icons{
 }
 
 .logo{
-    color: #ffd700;
+    background: linear-gradient(135deg, #e8e8e8, #d5d5d5);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
     text-decoration:none;
     font-size: 1.8rem;
     font-weight: 700;
@@ -657,8 +660,12 @@ footer .social-icons{
 }
 
 .logo i {
-    color: #ffd700;
+    background: linear-gradient(135deg, #64b4ff, #7dd3ff, #9d5eff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
     margin-right: 5px;
+    filter: drop-shadow(0 0 10px rgba(100, 180, 255, 0.4));
 }
 
 /* small screens */
