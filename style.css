@@ -214,6 +214,52 @@ body{
     margin: 20px 0;
 }
 
+.resume-download {
+    display: flex;
+    gap: 15px;
+    margin-top: 30px;
+    animation: slideInRight 0.8s ease-out 0.9s both;
+    align-items: center;
+}
+
+.download-btn, .contact-btn {
+    padding: 12px 28px;
+    font-size: 1rem;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+.download-btn {
+    background: linear-gradient(135deg, #64b4ff, #7dd3ff);
+    color: #000;
+    box-shadow: 0 8px 20px rgba(100, 180, 255, 0.4);
+}
+
+.download-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 30px rgba(100, 180, 255, 0.6);
+}
+
+.contact-btn {
+    background: rgba(139, 92, 246, 0.2);
+    color: #8B5CF6;
+    border: 2px solid #8B5CF6;
+}
+
+.contact-btn:hover {
+    background: rgba(139, 92, 246, 0.3);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(139, 92, 246, 0.3);
+}
+
 .hero-image-wrapper {
     flex: 1;
     display: flex;
@@ -727,6 +773,18 @@ footer .social-icons{
     
     .hero-content p {
         font-size: 1rem;
+    }
+    
+    .resume-download {
+        flex-direction: column;
+        align-items: center;
+        gap: 12px;
+    }
+    
+    .download-btn, .contact-btn {
+        width: 100%;
+        max-width: 250px;
+        justify-content: center;
     }
     
     .hero-image {
