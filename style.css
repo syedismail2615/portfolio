@@ -202,6 +202,7 @@ body{
     color: #8B5CF6;
     animation: slideInRight 0.8s ease-out 0.3s both;
     margin: 20px 0;
+    text-align: center;
 }
 
 .hero-content p {
@@ -648,20 +649,20 @@ footer .social-icons{
 }
 
 .logo{
-    background: linear-gradient(135deg, #e8e8e8, #d5d5d5);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+    color: #e8e8e8;
     text-decoration:none;
     font-size: 1.8rem;
     font-weight: 700;
     letter-spacing: 2px;
     animation: fadeIn 0.8s ease-out;
+    display: flex;
+    align-items: center;
+    gap: 8px;
 }
 
 .logo i {
     color: #ffd700;
-    margin-right: 5px;
+    font-size: 1.8rem;
     animation: crownGlow 2s ease-in-out infinite;
 }
 
