@@ -486,6 +486,31 @@ body{
     font-weight: 600;
 }
 
+.project-logos {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 15px;
+    flex-wrap: wrap;
+}
+
+.project-logos i {
+    font-size: 2rem;
+    padding: 10px;
+    border-radius: 10px;
+    background: linear-gradient(135deg, rgba(100, 180, 255, 0.2), rgba(150, 100, 255, 0.15));
+    border: 1px solid rgba(100, 180, 255, 0.3);
+    color: #64b4ff;
+    transition: all 0.3s ease;
+}
+
+.project-logos i:hover {
+    transform: scale(1.15) translateY(-3px);
+    color: #7dd3ff;
+    box-shadow: 0 8px 20px rgba(100, 180, 255, 0.4);
+    border-color: rgba(100, 180, 255, 0.6);
+    background: linear-gradient(135deg, rgba(100, 180, 255, 0.35), rgba(150, 100, 255, 0.25));
+}
+
 /* ===== CONTACT ===== */
 form{
     display:flex;
